@@ -71,11 +71,15 @@ def crossover(population, population_size, scores):
 
 
 def mutated(population, goal, mutation_index):
+    # mutation index - определяет процентное кол-во генов для мутации
+    print('\t[Current mutation index:' + str(mutation_index) + ']')
     mutated_population = []
     for roots in population:
         mutated_roots = roots
+        # mutation_indexes - массив индексов, которые мутируют. Количество определяется mutation_index
         mutation_indexes = random.sample([i for i in range(len(roots))],
                                          1 + round(3*mutation_index/150))
+        # Мутация применяется для всех индексов в mutation_indexes
         for index in mutation_indexes:
             mutated_roots[index] = (mutated_roots[index]
                                     + random.randint(-goal//4, +goal//4))
@@ -106,9 +110,9 @@ if __name__ == '__main__':
     your_coefficients = [random.randint(-10, 10) for i in range(4)]
     res = 100
     start = datetime.now()
-    final_result, crossovers_num, mutate_num = diophantine(*your_coefficients, y=res)
+    final_result, crossovers_num, m_perc = diophantine(*your_coefficients, y=res)
     finish = datetime.now()
     show_as_answer(final_result, your_coefficients, res)
     print(f"Algorithm execution time: {finish - start}ms."
-          f"\nCrossovers executed: {crossovers_num}"
-          f"\nMutations executed: {mutate_num}")
+          f"\nCrossovers executed: {crossovers_num}")
+    print(f"Optimal mutation percentage: {m_perc}")
